@@ -91,7 +91,7 @@ Compared to the previous program, this one has **shorter job durations**. The sh
 ---
 
 ### **(Q8) How many stages does your program have? How does this affect runtime?**
-My program has **four jobs, each with one stage**. Since there are fewer stages, the **impact on runtime is minimal**. This program runs **faster** than the previous one.
+My program has **four jobs, each with one stage**. Even though there are fewer stages, the runtime did not change significantly. 
 
 ---
 
@@ -101,15 +101,28 @@ Visit this link: [http://localhost:4040/SQL](http://localhost:4040/SQL).
 2. Scroll to the bottom and click on **`> Details`**.
 3. Copy the execution plans below and analyze:
 
-#### **Execution Plans**
-- **Final Plan:** *(Copy the output here)*
-- **Initial Plan:** *(Copy the output here)*
-
+```
+== Physical Plan ==
+AdaptiveSparkPlan (16)
++- == Final Plan ==
+   * Sort (10)
+   +- AQEShuffleRead (9)
+      +- ShuffleQueryStage (8), Statistics(sizeInBytes=96.0 B, rowCount=4)
+         +- Exchange (7)
+            +- * HashAggregate (6)
+               +- AQEShuffleRead (5)
+                  +- ShuffleQueryStage (4), Statistics(sizeInBytes=128.0 B, rowCount=4)
+                     +- Exchange (3)
+                        +- * HashAggregate (2)
+                           +- Scan csv  (1)
++- == Initial Plan ==
+   Sort (15)
+   +- Exchange (14)
+      +- HashAggregate (13)
+         +- Exchange (12)
+            +- HashAggregate (11)
+               +- Scan csv  (1)
+```
 #### **Analysis**
-- The **Initial Plan** is usually **longer and more complicated**.
-- The **Final Plan** is **more optimized**, as Spark refines the query execution.
-- The **Final Plan** is preferred since it eliminates unnecessary operations and optimizes performance.
-
+The final plan is Spark's reoptimized plan using runtime stats so therefore it is the more optimal one.
 ---
-
-✅ **End of Report**
