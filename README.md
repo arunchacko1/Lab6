@@ -124,5 +124,5 @@ AdaptiveSparkPlan (16)
                +- Scan csv  (1)
 ```
 #### **Analysis**
-The final plan is Spark's reoptimized plan using runtime stats so therefore it is the more optimal one.
+- The final plan is Spark's reoptimized plan using runtime stats so therefore it is the more optimal one.
 ---
